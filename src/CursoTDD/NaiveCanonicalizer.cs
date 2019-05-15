@@ -5,16 +5,18 @@ using System.Text;
 
 namespace CursoTDD
 {
-    public class NaiveCanonicalizer
+    public static class NaiveCanonicalizer
     {
         public static string GetCanonicalForm(string searchTerm)
         {
+            if (searchTerm == null)
+                throw new ArgumentException("searchTerm");
+
             return searchTerm
-                    .Split(new[] { ' ' })
+                    .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                     .Select(x => x.ToUpper())
                     .OrderBy(x => x)
-                    .Aggregate((x, y) => x + " " + y);
-
+                    .Aggregate("", (x, y) => x + " " + y);
         }
     }
 }
